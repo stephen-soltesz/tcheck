@@ -16,7 +16,7 @@ before_install:
 
 script:
   - bash -xe tests/setup_tests.sh ${OS_VERSION} tcheck.spec
-  - ls -l *.rpm
+  - ls -l build/*.rpm
 
 # On success, upload the RPM to packagecloud.io
 deploy:
