@@ -4,6 +4,7 @@
 OS_VERSION=$1
 SPECFILE=$2
 
+# TRAVIS_REPO_SLUG=<owner>/<repo>
 if [ "$OS_VERSION" = "6.6" ]; then
 
   sudo docker run --rm=true -v `pwd`:/repo:rw centos:centos${OS_VERSION} \

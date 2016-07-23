@@ -16,3 +16,4 @@ before_install:
 script:
   # Run tests in Container
   - bash -xe tests/setup_tests.sh ${OS_VERSION} tcheck.spec
+  - ls -l *.rpm

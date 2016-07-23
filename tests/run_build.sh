@@ -50,6 +50,9 @@ rpmbuild --define '_topdir /tmp/rpmbuild' -ba /tmp/rpmbuild/SPECS/${SPECFILE}
 yum localinstall -y /tmp/rpmbuild/RPMS/noarch/${package}*
 
 # Run unit tests on installed package.
-pushd /repo/${package}
+pushd /repo
   echo "TODO: ADD UNIT TESTS HERE."
 popd
+
+# Copy RPM to location mounted outside of container.
+cp /tmp/rpmbuild/RPMS/noarch/${package}* /repo/
