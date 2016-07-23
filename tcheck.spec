@@ -1,7 +1,9 @@
+%global release_date %(date +%Y%m%dT%H%M)
+
 Summary: Dummy package for proof of concept
 Name: tcheck
 Version: 0.1
-Release: 0
+Release: %{release_date}
 Group: System Environment/Base
 License: Apache 2.0
 BuildArch: noarch
