@@ -21,7 +21,7 @@ script:
 # On success, upload the RPM to packagecloud.io
 deploy:
   provider: packagecloud
-  repository: travis-uploads-test
+  repository: $TRAVIS_BRANCH
   username: measurementlab
   token:
     # Generated with: travis encrypt <api-token> --add deploy.token
