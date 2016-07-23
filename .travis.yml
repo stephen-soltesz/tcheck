@@ -12,7 +12,8 @@ before_install:
   #  | sudo tee /etc/default/docker > /dev/null
   - sudo service docker restart
   - sleep 5
-  - sudo docker pull centos:centos${OS_VERSION}
+  # - sudo docker pull centos:centos${OS_VERSION}
+  - sudo docker pull toopher/centos-i386
 
 script:
   - bash -xe tests/setup_tests.sh ${OS_VERSION} tcheck.spec
