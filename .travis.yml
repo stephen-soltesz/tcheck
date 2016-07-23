@@ -13,7 +13,7 @@ before_install:
   - sudo service docker restart
   - sleep 5
   # - sudo docker pull centos:centos${OS_VERSION}
-  - sudo docker pull toopher/centos-i386
+  - sudo docker pull toopher/centos-i386:centos6
 
 script:
   - bash -xe tests/setup_tests.sh ${OS_VERSION} tcheck.spec
