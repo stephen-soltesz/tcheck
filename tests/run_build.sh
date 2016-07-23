@@ -55,4 +55,5 @@ pushd /repo
 popd
 
 # Copy RPM to location mounted outside of container.
-cp /tmp/rpmbuild/RPMS/noarch/${package}* /repo/
+mkdir -p /repo/build
+cp /tmp/rpmbuild/RPMS/noarch/${package}* /repo/build
