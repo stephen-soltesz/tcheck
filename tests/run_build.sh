@@ -17,10 +17,10 @@ rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OS_VERSION%
 # Broken mirror?
 echo "exclude=mirror.beyondhosting.net" >> /etc/yum/pluginconf.d/fastestmirror.conf
 
-yum -y update
+#yum -y update
 yum -y clean all
 yum -y install yum-plugin-priorities
-yum -y install rpm-build gcc gcc-c++ boost-devel cmake git tar gzip make autotools
+yum -y install rpm-build gcc gcc-c++ cmake git tar gzip make autotools # boost-devel 
 
 # Prepare the RPM environment
 mkdir -p /tmp/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
@@ -36,7 +36,7 @@ cp /repo/${SPECFILE} /tmp/rpmbuild/SPECS
 package=$( rpm -q --specfile /repo/${SPECFILE} --queryformat '%{Name}\n' )
 version=$( rpm -q --specfile /repo/${SPECFILE} --queryformat '%{Version}\n' )
 # Repo directory must match the RPM spec file package name.
-pushd ${package}
+pushd /repo
   # CentOS 6 git version 1.7.1 does not support --format=tar.gz
   # Later versions of git do.
   git archive --format=tar --prefix=${package}-${version}/ HEAD | \
