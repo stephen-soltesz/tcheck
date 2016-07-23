@@ -8,8 +8,8 @@ services:
   
 before_install:
   - sudo apt-get update
-  - echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"'
-    | sudo tee /etc/default/docker > /dev/null
+  #- echo 'DOCKER_OPTS="-H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock -s devicemapper"'
+  #  | sudo tee /etc/default/docker > /dev/null
   - sudo service docker restart
   - sleep 5
   - sudo docker pull centos:centos${OS_VERSION}
@@ -20,7 +20,9 @@ script:
 
 # On success, upload the RPM to packagecloud.io
 deploy:
+  # See docs: https://docs.travis-ci.com/user/deployment/packagecloud
   provider: packagecloud
+  # On push and pull requests, TRAVIS_BRANCH is set to the target branch.
   repository: $TRAVIS_BRANCH
   username: measurementlab
   token:
@@ -28,6 +30,6 @@ deploy:
     secure: O2TDvqHwIBnwb4pPRDot5L2XOGV01mJMNqjJ+I8PFBBNcaifHS6ONyYCoGvweQ7dahObCiw1XZUslKGuKsDHUCz4rEAaIksznhRePNFa88C/V8DL+hgNxYnkCPGioYfzUbOzt4NCHXOOC7p6BkurQcm5oui/sWORIpc8WFiUs5diJIWzF/9FJO/nVi2R7OKiJWLx0/VzQ3a/S3GKF8C7HQFS0x2pOwi4xt2D8R/SqR0b4pDjqMGgmNBDAEtGgns6kGYoDyA0nms8cGFzV2R46D6jAIn0Vh43udPonrbyUT74OU2quTlAZg4l2gdffSzylyDavgXmaIlpqX1kOgPj6z8TmdaM835tw2ut3BkPdIFHeZb575tN+fyghErAc/wT+JhTM7vzMZaI1kQ1pLxUPaCmErdSshZC/umT4Qb+ArZj5nAc8r2wltwA6NVMPoKezjeH+MCBi3WD+QbiX7oHV6If4zpf1Wtc1m2PLLAnzUM1J5SBraG/816kEJJjSnXh5/EZ/O6YFSFdRS9msEspqmOY1f2RIQFbO/xPaSAARCoz5XjsNsxCjBxST15yh8NGStCcFKz//uqK/IwkQVxPJCbT/NLr9tK3vXJr7m85Lek0QzrSh/EurK/8QccsTilu0elC1Vi8dDRirSbQxBXeg6ymatv0vfUTH0X4XVErrC8=
   dist: el/6
   on:
-    branch: master
+    all_branches: true
   skip_cleanup: true
   package_glob: build/*.rpm
