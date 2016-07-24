@@ -1,6 +1,5 @@
 sudo: required
 env:
-  matrix:
   - OS_TYPE=centos OS_VERSION=6.6
   
 services:
@@ -8,18 +7,23 @@ services:
   
 before_install:
   - sudo apt-get update
-  #- sudo service docker restart
-  #- sleep 5
-  # Official CentOS docker builds are x86_64 only.
-  # - sudo docker pull centos:centos${OS_VERSION}
+  # Restart docker in case it or deps were updated.
+  - sudo service docker restart
+  - sleep 5
+  # The official CentOS docker builds ("centos:") are x86_64 only.
+  # TODO: build an M-Lab specific centos6+ i386 image.
+  # NOTE: this is a centos6.6 image.
   - sudo docker pull toopher/centos-i386:centos6
 
 script:
-  - bash -xe tests/setup_tests.sh ${OS_VERSION} tcheck.spec
+  - sudo docker run --rm=true -v ${TRAVIS_BUILD_DIR}:/source:rw \
+      toopher/centos-i386:centos6 \
+      /bin/bash -c "bash -xe /source/tests/run_build.sh ${OS_VERSION} tcheck.spec"
+  #- bash -xe tests/setup_tests.sh ${OS_VERSION} tcheck.spec
   - ls -l build/*.rpm
 
-# On success, upload the RPM to packagecloud.io
 deploy:
+  # On 'script' success, upload the RPM to packagecloud.io
   # See docs: https://docs.travis-ci.com/user/deployment/packagecloud
   provider: packagecloud
   username: mlab
