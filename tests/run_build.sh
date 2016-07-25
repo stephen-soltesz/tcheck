@@ -24,6 +24,7 @@ yum -y install rpm-build gcc gcc-c++ cmake git tar gzip make autotools # boost-d
 mkdir -p /tmp/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 cat /etc/rpm/macros.dist
 
+export GIT_DIR=/source/.git
 cp /source/${SPECFILE} /tmp/rpmbuild/SPECS
 package=$( rpm -q --specfile /source/${SPECFILE} --queryformat '%{Name}\n' )
 version=$( rpm -q --specfile /source/${SPECFILE} --queryformat '%{Version}\n' )
