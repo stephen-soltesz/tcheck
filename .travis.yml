@@ -1,6 +1,9 @@
 sudo: required
 env:
-  - OS_TYPE=centos OS_VERSION=6.6
+  # The official CentOS docker builds ("centos:centos6.*") are x86_64 only.
+  # TODO: build an M-Lab specific centos6+ i386 image.
+  # NOTE: this third-party image is centos6.6.
+  - DOCKER_IMAGE=toopher/centos-i386:centos6
   
 services:
   - docker
@@ -10,13 +13,11 @@ before_install:
   # Restart docker in case it or deps were updated.
   - sudo service docker restart
   - sleep 5
-  # The official CentOS docker builds ("centos:") are x86_64 only.
-  # TODO: build an M-Lab specific centos6+ i386 image.
-  # NOTE: this is a centos6.6 image.
-  - sudo docker pull toopher/centos-i386:centos6
+  - sudo docker pull ${DOCKER_IMAGE}
 
 script:
-  - bash -xe tests/setup_tests.sh ${OS_VERSION} tcheck.spec
+  # Expect a SPEC file that has the same name as the git repo.
+  - bash -xe tests/setup_build.sh ${DOCKER_IMAGE} ${TRAVIS_REPO_SLUG##*/}.spec
   - ls -l build/*.rpm
 
 deploy:

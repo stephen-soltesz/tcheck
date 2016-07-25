@@ -1,6 +1,5 @@
 #!/bin/bash -xe
 
-OS_VERSION=$1
 SPECFILE=$2
 
 ls -l /home
@@ -13,7 +12,7 @@ yum -y clean all
 yum -y clean expire-cache
 
 # First, install all the needed packages.
-rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-${OS_VERSION%%.*}.noarch.rpm
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
 
 # TODO: enable update.
 # yum -y update
@@ -24,9 +23,6 @@ yum -y install rpm-build gcc gcc-c++ cmake git tar gzip make autotools # boost-d
 # Prepare the RPM environment
 mkdir -p /tmp/rpmbuild/{BUILD,RPMS,SOURCES,SPECS,SRPMS}
 cat /etc/rpm/macros.dist
-# cat >> /etc/rpm/macros.dist << EOF
-# %dist .mlab.el6
-# EOF
 
 cp /source/${SPECFILE} /tmp/rpmbuild/SPECS
 package=$( rpm -q --specfile /source/${SPECFILE} --queryformat '%{Name}\n' )
@@ -39,7 +35,7 @@ pushd /source
       gzip > /tmp/rpmbuild/SOURCES/${package}-${version}.tar.gz
 popd
 
-# Build the RPM
+# Build the RPM.
 rpmbuild --define '_topdir /tmp/rpmbuild' -ba /tmp/rpmbuild/SPECS/${SPECFILE}
 
 # After building the RPM, try to install it
@@ -47,9 +43,9 @@ yum localinstall -y /tmp/rpmbuild/RPMS/noarch/${package}*
 
 # Run unit tests on installed package.
 pushd /source
-  echo "TODO: ADD UNIT TESTS HERE."
+  echo "TODO: ADD POST-INSTALL TESTS HERE."
 popd
 
-# Copy RPM to location mounted outside of container.
+# Copy RPM to location shared with external container.
 mkdir -p /source/build
 cp /tmp/rpmbuild/RPMS/noarch/${package}* /source/build

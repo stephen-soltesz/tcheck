@@ -1,4 +1,4 @@
-%global release_date %(date +%Y%m%dT%H%M)
+%global release_date %(date -d @`git -C /source log -1 --format=%ct` +%Y%m%dT%H%M)
 
 Summary: Dummy package for proof of concept
 Name: tcheck
