@@ -17,7 +17,7 @@ before_install:
 
 script:
   # Expect a SPEC file that has the same name as the git repo.
-  - bash -xe tests/setup_build.sh ${DOCKER_IMAGE} ${TRAVIS_REPO_SLUG##*/}.spec
+  - bash -xe tests/setup_build.sh ${DOCKER_IMAGE}
   - ls -l build/*.rpm
 
 deploy:

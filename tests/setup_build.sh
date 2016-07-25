@@ -1,7 +1,7 @@
 #!/bin/bash -xe
 
 DOCKER_IMAGE=$1
-SPECFILE=$2
+SPECFILE=${TRAVIS_REPO_SLUG##*/}.spec
 env
 
 sudo docker run --rm=true \
