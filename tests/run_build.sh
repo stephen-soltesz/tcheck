@@ -1,6 +1,6 @@
 #!/bin/bash -xe
 
-SPECFILE=$2
+SPECFILE=$1
 
 ls -l /home
 
